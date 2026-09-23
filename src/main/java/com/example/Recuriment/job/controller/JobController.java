@@ -4,6 +4,7 @@ import com.example.Recuriment.job.dto.JobRequest;
 import com.example.Recuriment.job.dto.JobResponse;
 import com.example.Recuriment.job.entity.Job;
 import com.example.Recuriment.job.service.JobService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,9 @@ public class JobController {
     @Autowired
     JobService jobService;
     @PostMapping("/jobs")
-    public  String createJob(@RequestBody List<Job> job)
+    public  String createJob(@Valid  @RequestBody JobRequest request)
     {
-        return jobService.createJob(job);
+        return jobService.createJob(request);
     }
     @GetMapping("/jobs")
     public List<JobResponse> getAll()
@@ -29,16 +30,12 @@ public class JobController {
     public ResponseEntity<?> findbyid(@PathVariable("id") Long id)
     {
         JobResponse response = jobService.findbyid(id);
-        if(response == null)
-            return  new ResponseEntity<>("Job Not found", HttpStatus.NOT_FOUND);
         return  new ResponseEntity<>(response,HttpStatus.OK);
     }
     @PutMapping("/jobs/{id}")
-    public ResponseEntity<?> updateJob(@PathVariable("id") Long id ,@RequestBody JobRequest request)
+    public ResponseEntity<?> updateJob(@PathVariable("id") Long id ,@Valid @RequestBody JobRequest request)
     {
         JobResponse response = jobService.updateJob(id,request);
-        if(response == null)
-            return  new ResponseEntity<>("Job Not found", HttpStatus.NOT_FOUND);
         return  new ResponseEntity<>("Updated Successfully",HttpStatus.OK);
     }
     @DeleteMapping("/jobs/{id}")

@@ -1,10 +1,13 @@
 package com.example.Recuriment.job.service;
 
+import com.example.Recuriment.exception.InvalidSalaryException;
+import com.example.Recuriment.exception.ResourceNotFoundException;
 import com.example.Recuriment.job.dto.JobRequest;
 import com.example.Recuriment.job.dto.JobResponse;
 import com.example.Recuriment.job.entity.Job;
 import com.example.Recuriment.job.repository.JobRepository;
 import com.example.Recuriment.user.entity.User;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +18,12 @@ import java.util.List;
 public class JobService {
     @Autowired
     JobRepository repository;
-    public String createJob(List<Job> job) {
-        repository.saveAll(job);
+    public String createJob(JobRequest request) {
+        if(request.getMinSalary().compareTo(request.getMaxSalary()) > 0)
+            throw new InvalidSalaryException("The max Salary should be greater than min Salary");
+        Job job = new Job();
+        BeanUtils.copyProperties(request,job);
+        repository.save(job);
         return "Successfully";
     }
     public List<JobResponse> getAll() {
@@ -43,9 +50,8 @@ public class JobService {
     }
 
     public JobResponse findbyid(Long id) {
-        Job j1 = repository.findById(id).orElse(null);
-        if(j1 == null)
-            return  null;
+        Job j1 = repository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Job is not Found"));
         JobResponse response = new JobResponse();
         response.setId(j1.getId());
         response.setTitle(j1.getTitle());
@@ -63,9 +69,10 @@ public class JobService {
     }
 
     public JobResponse updateJob(Long id,JobRequest request) {
-        Job j = repository.findById(id).orElse(null);
-        if(j == null)
-            return  null;
+        Job j = repository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Job is Not found"));
+        if(request.getMinSalary().compareTo(request.getMaxSalary()) > 0)
+            throw new InvalidSalaryException("The max Salary should be greater than min Salary");
         j.setTitle(request.getTitle());
         j.setDescription(request.getDescription());
         j.setLocation(request.getLocation());
@@ -80,9 +87,8 @@ public class JobService {
     }
 
     public String DeleteById(Long id) {
-        Job j = repository.findById(id).orElse(null);
-        if(j == null)
-            return "Job not Found";
+        Job j = repository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Job is Not Found"));
         repository.deleteById(id);
         return "Job is Deleted";
     }

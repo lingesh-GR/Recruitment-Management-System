@@ -1,5 +1,8 @@
 package com.example.Recuriment.recruiter.service;
 
+import com.example.Recuriment.exception.DuplicateException;
+import com.example.Recuriment.exception.InvalidRoleException;
+import com.example.Recuriment.exception.ResourceNotFoundException;
 import com.example.Recuriment.recruiter.dto.RecruiterRequest;
 import com.example.Recuriment.recruiter.dto.RecruiterResponse;
 import com.example.Recuriment.recruiter.entity.Recruiter;
@@ -20,11 +23,10 @@ public class RecruiterService {
     @Autowired
     UserRepository userRepository;
     public String createAll(RecruiterRequest request) {
-        User user = userRepository.findById(request.getUserId()).orElse(null);
-        if(user == null)
-            return "User is Not Found";
+        User user = userRepository.findById(request.getUserId()).orElseThrow(
+                ()-> new ResourceNotFoundException("The user Is Not found"));
         if(user.getRole() != Role.RECRUITER)
-            return "User is Not Recruiter";
+            throw new InvalidRoleException("The user is not Recruiter");
         Recruiter recruiter = new Recruiter();
         recruiter.setUser(user);
         recruiter.setDesignation(request.getDesignation());
@@ -51,9 +53,8 @@ public class RecruiterService {
     }
 
     public RecruiterResponse getById(Long id) {
-        Recruiter recruiter = repository.findById(id).orElse(null);
-        if(recruiter == null)
-             return  null;
+        Recruiter recruiter = repository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("The Recruiter is not Found"));
        RecruiterResponse response = new RecruiterResponse();
        response.setId(recruiter.getId());
        response.setUserId(recruiter.getUser().getId());
@@ -64,13 +65,17 @@ public class RecruiterService {
        return  response;
     }
 
-    public Recruiter updateBy(Long id, RecruiterRequest request) {
-        User user = userRepository.findById(request.getUserId()).orElse(null);
-        Recruiter recruiter = repository.findById(id).orElse(null);
-        if(user == null || recruiter == null)
-            return  null;
+    public Recruiter updateBy(Long recruiterId, RecruiterRequest request) {
+        User user = userRepository.findById(request.getUserId()).orElseThrow(
+                ()-> new ResourceNotFoundException("The userId is not Found"));
+        Recruiter recruiter = repository.findById(recruiterId).orElseThrow(
+                ()-> new ResourceNotFoundException("The Recruiter Id is not Found"));
         if(user.getRole() != Role.RECRUITER)
-            return  null;
+            throw new InvalidRoleException("The user is not Recruiter");
+        Recruiter recur = repository.findByUserId(request.getUserId()).orElseThrow(
+                ()-> new ResourceNotFoundException("The User Id is not Fill the Profile"));
+        if(!recur.getId().equals(recruiterId))
+            throw new DuplicateException("The User already have the Profile to it");
         recruiter.setUser(user);
         recruiter.setDesignation(request.getDesignation());
         recruiter.setCompanyName(request.getCompanyName());
@@ -78,11 +83,10 @@ public class RecruiterService {
         return  recruiter;
     }
 
-    public String deleteById(Long id) {
-        Recruiter recruiter = repository.findById(id).orElse(null);
-        if(recruiter == null)
-            return "Recruitter Not Found";
-        repository.deleteById(id);
+    public String deleteById(Long recruiterId) {
+        Recruiter recruiter = repository.findById(recruiterId).orElseThrow(
+                ()-> new ResourceNotFoundException("The Recruiter is Not Found"));
+        repository.deleteById(recruiterId);
         return "Deleted by Successfully";
     }
 }

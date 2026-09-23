@@ -6,6 +6,9 @@ import com.example.Recuriment.application.dto.ApplicationStatusRequest;
 import com.example.Recuriment.application.entity.Application;
 import com.example.Recuriment.application.entity.ApplicationStatus;
 import com.example.Recuriment.application.repository.ApplicationRepository;
+import com.example.Recuriment.exception.DuplicateException;
+import com.example.Recuriment.exception.InvalidRoleException;
+import com.example.Recuriment.exception.InvalidStatusException;
 import com.example.Recuriment.exception.ResourceNotFoundException;
 import com.example.Recuriment.job.entity.Job;
 import com.example.Recuriment.job.repository.JobRepository;
@@ -34,10 +37,10 @@ public class ApplicationService {
         Job job = jobRepository.findById(request.getJobId()).orElseThrow(()
         ->new ResourceNotFoundException("Job is Not found"));
         if(candidate.getRole() != Role.CANDIDATE)
-            return  "User is not Candidate";
+           throw new InvalidRoleException("User ID is not Candidate");
         Application application = repository.findByCandidateIdAndJobId(request.getCandidateId(), request.getJobId()).orElse(null);
         if(application != null)
-            return "Already Register";
+            throw  new DuplicateException("Already is Register");
         Application app = new Application();
         app.setCandidate(candidate);
         app.setJob(job);
@@ -63,9 +66,8 @@ public class ApplicationService {
     }
 
     public ApplicationResponse getById(Long id) {
-        Application application = repository.findById(id).orElse(null);
-        if(application == null)
-            return null;
+        Application application = repository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Application is Not Found"));
         ApplicationResponse response = new ApplicationResponse();
         response.setId(application.getId());
         response.setCandidateId(application.getCandidate().getId());
@@ -77,18 +79,17 @@ public class ApplicationService {
     }
 
     public Application update(Long id, ApplicationRequest request) {
-        Application application = repository.findById(id).orElse(null);
+        Application application = repository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Application is Not Found"));
         Application app = repository.findByCandidateIdAndJobId(request.getCandidateId(),request.getJobId()).orElse(null);
-        if(application == null)
-            return  null;
-        User candidate = userRepository.findById(request.getCandidateId()).orElse(null);
-        Job job =  jobRepository.findById(request.getJobId()).orElse(null);
-        if(job == null || candidate == null)
-            return  null;
+        User candidate = userRepository.findById(request.getCandidateId()).orElseThrow(
+                ()->new ResourceNotFoundException("User Id is not Found"));
+        Job job =  jobRepository.findById(request.getJobId()).orElseThrow(
+                ()->new ResourceNotFoundException("Job Id is not Found"));
         if(candidate.getRole() != Role.CANDIDATE)
-            return null;
-        if(app != null && !app.getId().equals(application.getId()))
-            return  null;
+            throw new InvalidRoleException("The User ID is not Candidate");
+        if(app != null && app.getId().equals(application.getId()))
+            throw new DuplicateException("Duplication is Not Allowed to it");
         application.setCandidate(candidate);
         application.setJob(job);
         repository.save(application);
@@ -96,17 +97,15 @@ public class ApplicationService {
     }
 
     public String deleteById(Long id) {
-        Application application = repository.findById(id).orElse(null);
-        if(application == null)
-            return "The job is Not Found to it";
+        Application application = repository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Application Not Found"));
         repository.deleteById(id);
         return  "Deleted Successfully";
     }
 
     public String updateByStatus(Long id, ApplicationStatusRequest status) {
-        Application application = repository.findById(id).orElse(null);
-        if(application == null)
-            return "Application not Found";
+        Application application = repository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Application Not Found"));
         ApplicationStatus current = application.getApplicationStatus();
         ApplicationStatus next =  status.getApplicationStatus();
         // APPLIED → UNDER_REVIEW
@@ -145,7 +144,7 @@ public class ApplicationService {
         }
 
         else {
-            return "Invalid Status Transition";
+            throw new InvalidStatusException("Invalid Status Transition");
         }
         repository.save(application);
         return  "Status Updated Successfully";

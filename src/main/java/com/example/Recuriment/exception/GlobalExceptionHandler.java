@@ -29,4 +29,24 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException exception)
+    {
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(InvalidRoleException.class)
+    public  ResponseEntity<?> handleInvalidRoleException(InvalidRoleException exception)
+    {
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(DuplicateException.class)
+    public  ResponseEntity<?> handleDuplicateException(DuplicateException exception)
+    {
+        return  new ResponseEntity<>(exception.getMessage(),HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(InvalidSalaryException.class)
+    public ResponseEntity<?> handleInvalidSalaryException(InvalidSalaryException exception)
+    {
+        return  new ResponseEntity<>(exception.getMessage(),HttpStatus.CONFLICT);
+    }
 }

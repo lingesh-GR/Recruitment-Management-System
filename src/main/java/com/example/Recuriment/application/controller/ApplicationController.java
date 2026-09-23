@@ -32,8 +32,6 @@ public class ApplicationController {
     public ResponseEntity<?> getById(@PathVariable("id") Long id)
     {
         ApplicationResponse response = service.getById(id);
-        if(response == null)
-            return new ResponseEntity<>("JobId is not found", HttpStatus.NOT_FOUND);
         return  new ResponseEntity<>(response,HttpStatus.OK);
     }
     @GetMapping("/applications/job/{jobId}")
@@ -53,21 +51,15 @@ public class ApplicationController {
         return  new ResponseEntity<>(responses,HttpStatus.OK);
     }
     @PutMapping("/applications/{id}")
-    public ResponseEntity<?> update(@Valid @PathVariable("id") Long id,@RequestBody ApplicationRequest request)
+    public ResponseEntity<?> update(@PathVariable("id") Long id,@Valid @RequestBody ApplicationRequest request)
     {
         Application application = service.update(id,request);
-        if(application == null)
-            return  new ResponseEntity<>("Not to Update",HttpStatus.NOT_FOUND);
         return  new ResponseEntity<>("Updated Successfully",HttpStatus.OK);
     }
     @PutMapping("/applications/{id}/status")
-    public ResponseEntity<?> updateByStatus(@PathVariable("id") Long id , @RequestBody ApplicationStatusRequest status)
+    public ResponseEntity<?> updateByStatus(@PathVariable("id") Long id ,@Valid @RequestBody ApplicationStatusRequest status)
     {
         String result = service.updateByStatus(id,status);
-        if(result.equals("Application not Found"))
-            return new ResponseEntity<>(result,HttpStatus.NOT_FOUND);
-        if(result.equals("Invalid Status Transition"))
-            return new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
         return  new ResponseEntity<>(result,HttpStatus.OK);
     }
     @DeleteMapping("/applications/{id}")
