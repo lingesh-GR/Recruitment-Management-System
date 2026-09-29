@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,31 +17,30 @@ import java.util.List;
 public class RecruiterController {
     @Autowired
     RecruiterService recruiterService;
-    @PostMapping("/recruiters")
-    public String createAll(@Valid @RequestBody RecruiterRequest request)
+    @PostMapping("/recruiter")
+    @PreAuthorize("hasRole('RECRUITER')")
+    public String create(@Valid @RequestBody RecruiterRequest request)
     {
-        return recruiterService.createAll(request);
+        return recruiterService.create(request);
     }
-    @GetMapping("/recruiters")
-    public List<RecruiterResponse> getAll()
+    @PreAuthorize("hasRole('RECRUITER')")
+    @GetMapping("/recruiter")
+    public ResponseEntity<?> get()
     {
-        return recruiterService.getAll();
+        RecruiterResponse response = recruiterService.get();
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
-    @GetMapping("/recruiters/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") Long id)
+    @PreAuthorize("hasRole('RECRUITER')")
+    @PutMapping("/recruiter")
+    public ResponseEntity<?> updateBy(@Valid @RequestBody RecruiterRequest request)
     {
-        RecruiterResponse response = recruiterService.getById(id);
-        return  new ResponseEntity<>(response,HttpStatus.OK);
-    }
-    @PutMapping("/recruiters/{recruiterId}")
-    public ResponseEntity<?> updateBy(@PathVariable("recruiterId") Long recruiterId,@Valid @RequestBody RecruiterRequest request)
-    {
-        Recruiter recruiter = recruiterService.updateBy(recruiterId,request);
+        Recruiter recruiter = recruiterService.updateBy(request);
         return  new ResponseEntity<>("Updated Successfully",HttpStatus.OK);
     }
-    @DeleteMapping("/recruiters/{recruiterId}")
-    public String deleteById(@PathVariable("recruiterId") Long recruiterId)
+    @PreAuthorize("hasRole('RECRUITER')")
+    @DeleteMapping("/recruiter")
+    public String deleteById()
     {
-        return recruiterService.deleteById(recruiterId);
+        return recruiterService.deleteBy();
     }
 }

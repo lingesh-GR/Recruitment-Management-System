@@ -49,4 +49,19 @@ public class GlobalExceptionHandler {
     {
         return  new ResponseEntity<>(exception.getMessage(),HttpStatus.CONFLICT);
     }
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException exception)
+    {
+
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.FORBIDDEN);
+    }
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<?> handleBadCredentialsException(
+            BadCredentialsException exception) {
+
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Invalid EmailId or Password");
+
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.Recuriment.job.entity;
 
+import com.example.Recuriment.recruiter.entity.Recruiter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,9 @@ public class Job {
     private JobStatus jobStatus;
     private LocalDateTime createdAt;
     private  LocalDateTime updatedAt;
+    @ManyToOne
+    @JoinColumn(name = "recruiter_id", nullable = false)
+    private Recruiter recruiter;
     @PrePersist
     protected  void onCreate()
     {

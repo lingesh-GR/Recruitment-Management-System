@@ -2,6 +2,7 @@ package com.example.Recuriment.job.dto;
 
 import com.example.Recuriment.job.entity.EmploymentType;
 import com.example.Recuriment.job.entity.JobStatus;
+import com.example.Recuriment.recruiter.entity.Recruiter;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -17,8 +18,9 @@ public class JobResponse {
     private String experienceRequired;
     private BigDecimal minSalary;
     private BigDecimal maxSalary;
-    private String skillsRequired;
+    private String skillRequired;
     private JobStatus jobStatus;
+    private Recruiter recruiter;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

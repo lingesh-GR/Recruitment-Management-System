@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,22 +19,26 @@ import java.util.List;
 public class ApplicationController {
     @Autowired
     ApplicationService service;
+    @PreAuthorize("hasRole('CANDIDATE')")
     @PostMapping("/applications")
     public  String create(@Valid @RequestBody ApplicationRequest request)
     {
         return service.create(request);
     }
+    @PreAuthorize("hasAnyRole('RECRUITER','CANDIDATE')")
     @GetMapping("/applications")
     public List<ApplicationResponse> getAll()
     {
         return  service.getAll();
     }
+    @PreAuthorize("hasAnyRole('RECRUITER','CANDIDATE')")
     @GetMapping("/applications/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id)
     {
         ApplicationResponse response = service.getById(id);
         return  new ResponseEntity<>(response,HttpStatus.OK);
     }
+    @PreAuthorize("hasRole('RECRUITER')")
     @GetMapping("/applications/job/{jobId}")
     public  ResponseEntity<?> getByJobId(@PathVariable Long jobId)
     {
@@ -42,6 +47,7 @@ public class ApplicationController {
             return  new ResponseEntity<>("No one Register to job",HttpStatus.NOT_FOUND);
         return  new ResponseEntity<>(response,HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('RECRUITER','CANDIDATE')")
     @GetMapping("/applications/candidate/{candidateId}")
     public  ResponseEntity<?> getByCandidateId(@PathVariable Long candidateId)
     {
@@ -50,18 +56,14 @@ public class ApplicationController {
             return  new ResponseEntity<>("No one candidate to Found",HttpStatus.NOT_FOUND);
         return  new ResponseEntity<>(responses,HttpStatus.OK);
     }
-    @PutMapping("/applications/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id,@Valid @RequestBody ApplicationRequest request)
-    {
-        Application application = service.update(id,request);
-        return  new ResponseEntity<>("Updated Successfully",HttpStatus.OK);
-    }
+    @PreAuthorize("hasRole('RECRUITER')")
     @PutMapping("/applications/{id}/status")
     public ResponseEntity<?> updateByStatus(@PathVariable("id") Long id ,@Valid @RequestBody ApplicationStatusRequest status)
     {
         String result = service.updateByStatus(id,status);
         return  new ResponseEntity<>(result,HttpStatus.OK);
     }
+    @PreAuthorize("hasRole('CANDIDATE')")
     @DeleteMapping("/applications/{id}")
     public String deleteById(@PathVariable("id")Long id)
     {

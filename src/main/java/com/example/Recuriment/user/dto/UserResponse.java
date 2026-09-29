@@ -12,6 +12,4 @@ public class UserResponse {
     private  String name;
     private String emailid;
     private  String phone;
-    private Role role;
-    private AccountStatus accountStatus;
 }

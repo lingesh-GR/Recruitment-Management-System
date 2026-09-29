@@ -9,8 +9,6 @@ import java.time.LocalDate;
 @Data
 public class CandidateRequest {
     @NotNull(message = "The Value should not be null")
-    private Long userId;
-    @NotNull(message = "The Value should not be null")
     @Past(message = "Data Should be in the Past")
     private LocalDate dateOfBirth;
     @NotBlank(message = "The field should not be Bank")

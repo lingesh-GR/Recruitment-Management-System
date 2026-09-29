@@ -1,13 +1,14 @@
 package com.example.Recuriment.user.controller;
 
-import com.example.Recuriment.user.dto.UserRequest;
-import com.example.Recuriment.user.dto.UserResponse;
+import com.example.Recuriment.user.dto.*;
 import com.example.Recuriment.user.entity.User;
 import com.example.Recuriment.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,34 +18,38 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
-    @PostMapping("/users")
-    public String createUser(@Valid @RequestBody UserRequest request)
+    @PostMapping("/register")
+    public String createUser(@Valid @RequestBody RegisterRequest request)
     {
         return userService.createUser(request);
     }
-    @GetMapping("/users/email/{emailid}")
-    public  ResponseEntity<?> findbyEmail(@PathVariable("emailid") String emailid)
+    @PostMapping("/login")
+    public LoginResponse login(@Valid @RequestBody LoginRequest request)
     {
-        UserResponse response = userService.findEmail(emailid);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return userService.verify(request);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
-    public  List<UserResponse> getAllUser()
+    public  List<UserResponse> getUser()
     {
-        return userService.getAllUser();
+
+        return userService.getUser();
     }
-    @GetMapping("/users/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/user/{id}")
     public ResponseEntity<?> findbyId(@PathVariable("id") Long id)
     {
         UserResponse response = userService.findById(id);
         return  new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @PutMapping("/users/{id}")
-    public  ResponseEntity<?> updateUser(@PathVariable("id") Long id ,@Valid @RequestBody UserRequest request)
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/users")
+    public  ResponseEntity<?> updateUser(@Valid @RequestBody UserRequest request)
     {
-        UserResponse response = userService.updateUser(id,request);
+        UserResponse response = userService.updateUser(request);
         return  new ResponseEntity<>("Updated Successfully",HttpStatus.OK);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/users/{id}")
     public  String deleteById(@PathVariable("id") Long id)
     {
