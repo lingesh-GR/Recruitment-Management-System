@@ -6,8 +6,10 @@ import com.example.Recuriment.exception.InvalidRoleException;
 import com.example.Recuriment.exception.ResourceNotFoundException;
 import com.example.Recuriment.user.dto.*;
 import com.example.Recuriment.user.entity.AccountStatus;
+import com.example.Recuriment.user.entity.PasswordResetToken;
 import com.example.Recuriment.user.entity.Role;
 import com.example.Recuriment.user.entity.User;
+import com.example.Recuriment.user.repository.PasswordResetTokenRepository;
 import com.example.Recuriment.user.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -21,9 +23,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -33,6 +37,10 @@ public class UserService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtService jwt;
+    @Autowired
+    private  EmailService emailService;
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
     public String createUser(RegisterRequest request) {
         final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = repository.findByEmailid(request.getEmailid()).orElse(null);
@@ -130,5 +138,57 @@ public class UserService {
                 return response;
             }
             throw  new BadCredentialsException("Invalid EmailId or Password");
+    }
+
+    public void ForgotPassword(ForgotPasswordRequest request) {
+        User user = repository.findByEmailid(request.getEmailid()).orElseThrow(
+                ()-> new ResourceNotFoundException("Email Id is not Found"));
+        String token = UUID.randomUUID().toString();
+        PasswordResetToken resetToken = new PasswordResetToken();
+        resetToken.setToken(token);
+        resetToken.setEmailid(request.getEmailid());
+        resetToken.setExpiryTime(LocalDateTime.now().plusMinutes(15));
+        String  resetLink = "http://localhost:5173/reset-password?token="+token;
+        passwordResetTokenRepository.save(resetToken);
+        emailService.sendEmail(request.getEmailid(),"Reset-password",
+                "Click this Link"+resetLink);
+    }
+
+    public void resetPassword(ResetPasswordRequest request) {
+
+        PasswordResetToken resetToken =
+                passwordResetTokenRepository.findByToken(request.getToken())
+                        .orElseThrow(
+                                () -> new ResourceNotFoundException(
+                                        "Invalid reset token"
+                                )
+                        );
+
+        // Check expiry
+        if (resetToken.getExpiryTime().isBefore(LocalDateTime.now())) {
+            throw new BadCredentialsException("Reset token has expired");
+        }
+
+        // Find user
+        User user = repository.findByEmailid(resetToken.getEmailid())
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(
+                                "User not found"
+                        )
+                );
+
+        // Encrypt new password
+        BCryptPasswordEncoder encoder =
+                new BCryptPasswordEncoder(12);
+
+        user.setPassword(
+                encoder.encode(request.getPassword())
+        );
+
+        // Save new password
+        repository.save(user);
+
+        // Delete used token
+        passwordResetTokenRepository.delete(resetToken);
     }
 }

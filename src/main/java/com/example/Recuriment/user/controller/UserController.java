@@ -2,6 +2,7 @@ package com.example.Recuriment.user.controller;
 
 import com.example.Recuriment.user.dto.*;
 import com.example.Recuriment.user.entity.User;
+import com.example.Recuriment.user.service.EmailService;
 import com.example.Recuriment.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    EmailService emailService;
     @PostMapping("/register")
     public String createUser(@Valid @RequestBody RegisterRequest request)
     {
@@ -54,5 +57,28 @@ public class UserController {
     public  String deleteById(@PathVariable("id") Long id)
     {
         return userService.deleteById(id);
+    }
+    @GetMapping("/test-mail")
+    public String testEmail()
+    {
+        emailService.sendEmail("lingeshrathinasamy@gmail.com","Test - Email","Welcome to the Email Id");
+        return "Successfully return to it";
+    }
+    @PostMapping("forgot-password")
+    public ResponseEntity<?> ForgotPassword(@Valid @RequestBody ForgotPasswordRequest request)
+    {
+        userService.ForgotPassword(request);
+        return new ResponseEntity<>("Email Sent Successfully",HttpStatus.OK);
+    }
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(
+            @Valid @RequestBody ResetPasswordRequest request) {
+
+        userService.resetPassword(request);
+
+        return new ResponseEntity<>(
+                "Password Reset Successfully",
+                HttpStatus.OK
+        );
     }
 }
