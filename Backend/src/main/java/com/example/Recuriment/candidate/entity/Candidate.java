@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class Candidate {
     private  String skills;
     private  Integer experienceYears;
     private  String currentCompany;
-    private  String resumeUrl;
+    private String resumeUrl;
     private  String linkedinUrl;
     private  String githubUrl;
     private  String portfolioUrl;

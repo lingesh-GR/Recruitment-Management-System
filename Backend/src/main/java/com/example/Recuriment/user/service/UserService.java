@@ -151,7 +151,7 @@ public class UserService {
         String  resetLink = "http://localhost:5173/reset-password?token="+token;
         passwordResetTokenRepository.save(resetToken);
         emailService.sendEmail(request.getEmailid(),"Reset-password",
-                "Click this Link : "+resetLink);
+                "Click this Link \n\n"+resetLink);
     }
 
     public void resetPassword(ResetPasswordRequest request) {
