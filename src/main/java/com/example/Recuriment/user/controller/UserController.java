@@ -58,12 +58,6 @@ public class UserController {
     {
         return userService.deleteById(id);
     }
-    @GetMapping("/test-mail")
-    public String testEmail()
-    {
-        emailService.sendEmail("lingeshrathinasamy@gmail.com","Test - Email","Welcome to the Email Id");
-        return "Successfully return to it";
-    }
     @PostMapping("forgot-password")
     public ResponseEntity<?> ForgotPassword(@Valid @RequestBody ForgotPasswordRequest request)
     {
