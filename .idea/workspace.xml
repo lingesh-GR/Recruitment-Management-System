@@ -5,72 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="81053b6e-8f74-4e13-a5da-9ce689795c1d" name="Changes" comment="Update the Feature to it">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/Filter/JwtFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/RecurimentApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/application/controller/ApplicationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/application/dto/ApplicationRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/application/dto/ApplicationResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/application/dto/ApplicationStatusRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/application/entity/Application.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/application/entity/ApplicationStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/application/repository/ApplicationRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/application/service/ApplicationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/candidate/controller/CandidateController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/candidate/dto/CandidateRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/candidate/dto/CandidateResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/candidate/entity/Candidate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/candidate/repository/CandidateRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/candidate/service/CandidateService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/config/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/exception/AccessDeniedException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/exception/BadCredentialsException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/exception/DuplicateException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/exception/GlobalExceptionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/exception/InvalidRoleException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/exception/InvalidSalaryException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/exception/InvalidStatusException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/exception/ResourceNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/job/controller/JobController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/job/dto/JobRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/job/dto/JobResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/job/entity/EmploymentType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/job/entity/Job.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/job/entity/JobStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/job/repository/JobRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/job/service/JobService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/recruiter/controller/RecruiterController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/recruiter/dto/RecruiterRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/recruiter/dto/RecruiterResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/recruiter/entity/Recruiter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/recruiter/repository/RecruiterRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/recruiter/service/RecruiterService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/controller/UserController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/dto/ForgotPasswordRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/dto/LoginRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/dto/LoginResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/dto/RegisterRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/dto/ResetPasswordRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/dto/UserRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/dto/UserResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/entity/AccountStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/entity/PasswordResetToken.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/entity/Role.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/entity/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/entity/userDetails.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/repository/PasswordResetTokenRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/repository/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/service/EmailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/service/JwtService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/service/UserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Recuriment/user/service/customizeUserDetails.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/Recuriment/RecurimentApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/application/service/ApplicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/application/service/ApplicationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/candidate/service/CandidateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/candidate/service/CandidateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/job/dto/JobRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/job/dto/JobRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/job/dto/JobResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/job/dto/JobResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/job/entity/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/job/entity/Job.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/recruiter/dto/RecruiterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/recruiter/dto/RecruiterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/recruiter/dto/RecruiterResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/recruiter/dto/RecruiterResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/recruiter/entity/Recruiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/Recuriment/recruiter/entity/Recruiter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/src/main.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/src/pages/auth/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/src/pages/auth/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/src/pages/auth/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Recruiment-Frontend/src/pages/auth/Register.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +73,7 @@
   &quot;keyToString&quot;: {
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;Spring Boot.RecurimentApplication.executor&quot;: &quot;Run&quot;,

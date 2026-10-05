@@ -41,6 +41,11 @@ public class ApplicationService {
                 ()-> new ResourceNotFoundException("EmailId not found"));
         Job job = jobRepository.findById(request.getJobId()).orElseThrow(
                 ()-> new ResourceNotFoundException("The Job is not Found"));
+                
+        if (job.getApplicationDeadline() != null && java.time.LocalDateTime.now().isAfter(job.getApplicationDeadline())) {
+            throw new IllegalArgumentException("Registration cannot open due to time limit");
+        }
+        
         Application existing = repository.findByCandidateIdAndJobId(candidate.getId(), job.getId()).orElse(null);
         if(existing != null)
             throw  new DuplicateException("Already Register");

@@ -32,6 +32,17 @@ public class Job {
     private  BigDecimal minSalary;
     @Column(columnDefinition = "Text")
     private  String skillRequired;
+    
+    @Column(columnDefinition = "Text")
+    private String eligibilityCriteria;
+    
+    @Column(columnDefinition = "Text")
+    private String aboutCompany;
+    
+    private String companyLinkedinUrl;
+
+    private LocalDateTime applicationDeadline;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private JobStatus jobStatus;

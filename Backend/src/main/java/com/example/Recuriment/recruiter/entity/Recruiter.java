@@ -24,6 +24,16 @@ public class Recruiter {
     private String designation;
     @Column(nullable = false)
     private String companyName;
+    
+    private String websiteUrl;
+    private String industry;
+    private String companySize;
+    private String location;
+    private String logoUrl;
+    
+    @Column(columnDefinition = "Text")
+    private String aboutCompany;
+    private String companyLinkedinUrl;
     private LocalDateTime createdAt;
     private  LocalDateTime updatedAt;
     @PrePersist

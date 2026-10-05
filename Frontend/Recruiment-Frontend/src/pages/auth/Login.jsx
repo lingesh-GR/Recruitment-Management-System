@@ -1,23 +1,19 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Eye, EyeOff } from 'lucide-react'
 import axios from 'axios'
+import { useAuth } from '../../context/AuthContext'
 
 function Login() {
   const navigate = useNavigate()
-
+  const { login } = useAuth()
   const [formData, setFormData] = useState({
     emailid: '',
     password: ''
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [theme, setTheme] = useState('dark')
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
-    setTheme(newTheme)
-    document.documentElement.setAttribute('data-theme', newTheme)
-  }
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (e) => {
     setFormData({
@@ -37,13 +33,7 @@ function Login() {
         'http://localhost:8080/login',
         formData
       )
-
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('role', response.data.role)
-      localStorage.setItem('name', response.data.name)
-      localStorage.setItem('userId', response.data.id)
-      localStorage.setItem('email', response.data.emailid)
-
+      login(response.data)
       if (response.data.role === 'CANDIDATE') {
         navigate('/candidate/dashboard')
       } else if (response.data.role === 'RECRUITER') {
@@ -65,9 +55,6 @@ function Login() {
 
   return (
     <div className="auth-page">
-      <button className="theme-toggle" onClick={toggleTheme}>
-        {theme === 'dark' ? '☀️' : '🌙'}
-      </button>
 
       <div className="auth-card">
         <div className="auth-header">
@@ -80,7 +67,7 @@ function Login() {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Email Address</label>
+            <label>Email Address <span style={{color: 'var(--error)'}}>*</span></label>
             <input
               type="email"
               name="emailid"
@@ -92,15 +79,25 @@ function Login() {
           </div>
 
           <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <label>Password <span style={{color: 'var(--error)'}}>*</span></label>
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                style={{ width: '100%', paddingRight: '40px' }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <Link to="/forgot-password" className="forgot-link">

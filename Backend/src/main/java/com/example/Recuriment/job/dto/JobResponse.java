@@ -19,6 +19,13 @@ public class JobResponse {
     private BigDecimal minSalary;
     private BigDecimal maxSalary;
     private String skillRequired;
+    
+    private String eligibilityCriteria;
+    
+    private String aboutCompany;
+    private String companyLinkedinUrl;
+    private LocalDateTime applicationDeadline;
+
     private JobStatus jobStatus;
     private Recruiter recruiter;
     private LocalDateTime createdAt;

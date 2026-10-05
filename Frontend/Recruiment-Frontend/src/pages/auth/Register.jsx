@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { User, Briefcase, Eye, EyeOff } from 'lucide-react'
 import axios from 'axios'
 
 function Register() {
@@ -16,13 +17,7 @@ function Register() {
   const [errors, setErrors] = useState({})
   const [serverError, setServerError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [theme, setTheme] = useState('dark')
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
-    setTheme(newTheme)
-    document.documentElement.setAttribute('data-theme', newTheme)
-  }
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -96,9 +91,6 @@ function Register() {
 
   return (
     <div className="auth-page">
-      <button className="theme-toggle" onClick={toggleTheme}>
-        {theme === 'dark' ? '☀️' : '🌙'}
-      </button>
 
       <div className="auth-card">
         <div className="auth-header">
@@ -111,7 +103,7 @@ function Register() {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Full Name</label>
+            <label>Full Name <span style={{color: 'var(--error)'}}>*</span></label>
             <input
               type="text"
               name="name"
@@ -124,7 +116,7 @@ function Register() {
           </div>
 
           <div className="form-group">
-            <label>Email Address</label>
+            <label>Email Address <span style={{color: 'var(--error)'}}>*</span></label>
             <input
               type="email"
               name="emailid"
@@ -137,15 +129,25 @@ function Register() {
           </div>
 
           <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Create a password"
-              value={formData.password}
-              onChange={handleChange}
-              className={errors.password ? 'input-error' : ''}
-            />
+            <label>Password <span style={{color: 'var(--error)'}}>*</span></label>
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Create a password"
+                value={formData.password}
+                onChange={handleChange}
+                className={errors.password ? 'input-error' : ''}
+                style={{ width: '100%', paddingRight: '40px' }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
             {errors.password && <span className="field-error">{errors.password}</span>}
           </div>
 
@@ -169,13 +171,13 @@ function Register() {
                 className={`role-option ${formData.role === 'CANDIDATE' ? 'active' : ''}`}
                 onClick={() => selectRole('CANDIDATE')}
               >
-                🎯 Candidate
+                <User size={18} style={{ marginRight: '8px' }} /> Candidate
               </div>
               <div
                 className={`role-option ${formData.role === 'RECRUITER' ? 'active' : ''}`}
                 onClick={() => selectRole('RECRUITER')}
               >
-                💼 Recruiter
+                <Briefcase size={18} style={{ marginRight: '8px' }} /> Recruiter
               </div>
             </div>
             {errors.role && <span className="field-error">{errors.role}</span>}

@@ -76,15 +76,25 @@ public class CandidateService {
             Application application = applicationRepository.findByCandidateIdAndJobRecruiterId(id,recruiter.getId()).orElseThrow(
                     ()-> new AccessDeniedException("Access are Denied"));
         }
-        Candidate candidate = repository.findByUserId(id).orElseThrow(
-                ()-> new ResourceNotFoundException("Candidate ID is not Found"));
+        Candidate candidate = repository.findByUserId(id).orElse(null);
         CandidateResponse response = new CandidateResponse();
-        BeanUtils.copyProperties(candidate,response);
-        response.setUserId(candidate.getUser().getId());
-        response.setName(candidate.getUser().getName());
-        response.setEmail(candidate.getUser().getEmailid());
-        response.setPhone(candidate.getUser().getPhone());
-        return  response;
+        
+        if (candidate != null) {
+            BeanUtils.copyProperties(candidate,response);
+            response.setUserId(candidate.getUser().getId());
+            response.setName(candidate.getUser().getName());
+            response.setEmail(candidate.getUser().getEmailid());
+            response.setPhone(candidate.getUser().getPhone());
+        } else {
+            // Fallback: If Candidate profile is incomplete, still return their User info
+            User candUser = userRepository.findById(id).orElseThrow(
+                    () -> new ResourceNotFoundException("Candidate User not found"));
+            response.setUserId(candUser.getId());
+            response.setName(candUser.getName());
+            response.setEmail(candUser.getEmailid());
+            response.setPhone(candUser.getPhone());
+        }
+        return response;
     }
     public Candidate getUpdate(CandidateRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

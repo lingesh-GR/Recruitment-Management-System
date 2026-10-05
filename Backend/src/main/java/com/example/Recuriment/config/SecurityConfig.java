@@ -43,7 +43,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // ✅ CORS preflight
-                        .requestMatchers("/register", "/login","/test-mail","/forgot-password","/reset-password").permitAll()
+                        .requestMatchers("/register", "/login","/test-mail","/forgot-password","/reset-password", "/uploads/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

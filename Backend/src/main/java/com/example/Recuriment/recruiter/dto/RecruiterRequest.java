@@ -11,4 +11,12 @@ public class RecruiterRequest {
     private String designation;
     @NotBlank(message = "The field should not be Empty")
     private String companyName;
+    
+    private String websiteUrl;
+    private String industry;
+    private String companySize;
+    private String location;
+    private String logoUrl;
+    private String aboutCompany;
+    private String companyLinkedinUrl;
 }

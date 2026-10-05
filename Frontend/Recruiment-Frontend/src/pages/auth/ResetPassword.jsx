@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Eye, EyeOff } from 'lucide-react'
 import axios from 'axios'
 
 function ResetPassword() {
@@ -17,6 +18,8 @@ function ResetPassword() {
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [theme, setTheme] = useState('dark')
 
   const toggleTheme = () => {
@@ -104,26 +107,46 @@ function ResetPassword() {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>New Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter new password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Enter new password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                style={{ width: '100%', paddingRight: '40px' }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
           
           <div className="form-group">
             <label>Confirm New Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm new password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Confirm new password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                style={{ width: '100%', paddingRight: '40px' }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={loading || message !== ''}>

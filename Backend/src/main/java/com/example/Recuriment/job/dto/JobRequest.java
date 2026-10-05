@@ -27,7 +27,18 @@ public class JobRequest {
             message = "The value Should be greater than 0")
     private BigDecimal maxSalary;
     @NotBlank(message = "The value should be fill")
-    private String skillsRequired;
+    private String skillRequired;
+    
+    @NotBlank(message = "The eligibility criteria is required")
+    private String eligibilityCriteria;
+    
+    @NotBlank(message = "About company is required")
+    private String aboutCompany;
+    
+    private String companyLinkedinUrl;
+
+    private java.time.LocalDateTime applicationDeadline;
+
     @NotNull(message = "The field not be null")
     private JobStatus jobStatus;
 }
